@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import "./App.css";
+import "./photo_julie.jpeg";
 import { intervalToDuration } from "date-fns";
 
 function Value(props) {
   return (
     <span>
-      `${props.value} ${props.value > 1 ? props.plural : props.singular}`
+      {props.value} {props.value > 1 ? props.plural : props.singular}
     </span>
   );
 }
