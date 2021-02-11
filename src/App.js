@@ -13,7 +13,7 @@ function Value(props) {
 }
 
 function CalendarCase(props) {
-  const [open, setOpen] = useState(props.currentDay + 1 < props.day);
+  const [open, setOpen] = useState(props.itsBirthday || props.birthdayIsPast || props.currentDay + 1 < props.day);
 
   const openCase = () => {
     if (props.currentDay !== -1 && props.currentDay < props.day) {
@@ -73,17 +73,31 @@ function EmptyCase() {
 }
 
 function App() {
+  const annivJulie = new Date(2021, 2, 27)
   function computeDiff() {
     return intervalToDuration({
-      end: new Date(2021, 2, 27),
-      start: new Date(),
+      end: annivJulie,
+      start: new Date()
     });
   }
-
   const [diff, setDiff] = useState(computeDiff());
 
+  function computeItsBirthday(){
+    return new Date() > annivJulie && diff && diff.days === 0
+  }
+  const [itsBirthday, setItsBirthday] = useState(computeItsBirthday());
+
+  function computeBirthdayIsPast(){
+    return new Date() > annivJulie && diff && diff.days > 0
+  }
+  const [birthdayIsPast, setBirthdayIsPast] = useState(computeBirthdayIsPast());
+
   useEffect(() => {
-    const t = setTimeout(() => setDiff(computeDiff()), 1000);
+    const t = setTimeout(() => {
+      setDiff(computeDiff())
+      setItsBirthday(computeItsBirthday())
+      setBirthdayIsPast(computeBirthdayIsPast())
+    }, 1000);
     return () => {
       clearTimeout(t);
     };
@@ -145,16 +159,22 @@ function App() {
               }}
             >
               <CalendarCase
+                itsBirthday={itsBirthday}
+                birthdayIsPast={birthdayIsPast}
                 currentDay={diff ? diff.days : -1}
                 day={16}
                 gifId="FYQZe82YefYje"
               />
               <CalendarCase
+                itsBirthday={itsBirthday}
+                birthdayIsPast={birthdayIsPast}
                 currentDay={diff ? diff.days : -1}
                 day={15}
                 gifId="l4FGr3nzq5u0m02vm"
               />
               <CalendarCase
+                itsBirthday={itsBirthday}
+                birthdayIsPast={birthdayIsPast}
                 currentDay={diff ? diff.days : -1}
                 day={14}
                 gifId="B1FAKSmfWqRA4"
@@ -171,9 +191,9 @@ function App() {
                 flexDirection: "row",
               }}
             >
-              <CalendarCase currentDay={diff ? diff.days : -1} day={13} gifId="3ohfFJUMgs8m5F9qec"/>
-              <CalendarCase currentDay={diff ? diff.days : -1} day={12} gifId="Rk927btUSH5eW0Hlbs"/>
-              <CalendarCase currentDay={diff ? diff.days : -1} day={11} gifId="143qWPF33HtSTK"/>
+              <CalendarCase itsBirthday={itsBirthday} birthdayIsPast={birthdayIsPast} currentDay={diff ? diff.days : -1} day={13} gifId="3ohfFJUMgs8m5F9qec"/>
+              <CalendarCase itsBirthday={itsBirthday} birthdayIsPast={birthdayIsPast} currentDay={diff ? diff.days : -1} day={12} gifId="Rk927btUSH5eW0Hlbs"/>
+              <CalendarCase itsBirthday={itsBirthday} birthdayIsPast={birthdayIsPast} currentDay={diff ? diff.days : -1} day={11} gifId="143qWPF33HtSTK"/>
             </div>
 
             <div
@@ -186,8 +206,8 @@ function App() {
                 flexDirection: "row",
               }}
             >
-              <CalendarCase currentDay={diff ? diff.days : -1} day={10} gifId="1wqqlaQ7IX3TXibXZE"/>
-              <CalendarCase currentDay={diff ? diff.days : -1} day={9} gifId="h55EUEsTG9224"/>
+              <CalendarCase itsBirthday={itsBirthday} birthdayIsPast={birthdayIsPast} currentDay={diff ? diff.days : -1} day={10} gifId="1wqqlaQ7IX3TXibXZE"/>
+              <CalendarCase itsBirthday={itsBirthday} birthdayIsPast={birthdayIsPast} currentDay={diff ? diff.days : -1} day={9} gifId="h55EUEsTG9224"/>
               <EmptyCase />
             </div>
           </div>
@@ -201,8 +221,12 @@ function App() {
               }}
             >
               <img src={photo} />
-              <div style={{ fontSize: "4rem" }}>Pas encore!</div>
-              {diff && (
+              <div style={{ fontSize: "3rem" }}>
+                {
+                  itsBirthday ? "C'est l'anniversaire de la best RH ever! Happy Birthday Julie!" : birthdayIsPast ? "See you next year!" : "Pas encore!" 
+                }
+              </div>
+              {diff && !itsBirthday && !birthdayIsPast && (
                 <>
                   <div style={{ fontSize: "2rem" }}>
                     C'est dans <Days /> et <Hours />
@@ -234,9 +258,9 @@ function App() {
                 flexDirection: "row",
               }}
             >
-              <CalendarCase currentDay={diff ? diff.days : -1} day={8} gifId="l4KibWpBGWchSqCRy"/>
-              <CalendarCase currentDay={diff ? diff.days : -1} day={7} gifId="Pjs1kqtH1KTaU"/>
-              <CalendarCase currentDay={diff ? diff.days : -1} day={6} gifId="DlVB2C14gkTkI"/>
+              <CalendarCase itsBirthday={itsBirthday} birthdayIsPast={birthdayIsPast} currentDay={diff ? diff.days : -1} day={8} gifId="l4KibWpBGWchSqCRy"/>
+              <CalendarCase itsBirthday={itsBirthday} birthdayIsPast={birthdayIsPast} currentDay={diff ? diff.days : -1} day={7} gifId="Pjs1kqtH1KTaU"/>
+              <CalendarCase itsBirthday={itsBirthday} birthdayIsPast={birthdayIsPast} currentDay={diff ? diff.days : -1} day={6} gifId="DlVB2C14gkTkI"/>
             </div>
 
             <div
@@ -249,9 +273,9 @@ function App() {
                 flexDirection: "row",
               }}
             >
-              <CalendarCase currentDay={diff ? diff.days : -1} day={5} gifId="UE9JPTe7LySli"/>
-              <CalendarCase currentDay={diff ? diff.days : -1} day={4} gifId="Jl4e4EbjO041O"/>
-              <CalendarCase currentDay={diff ? diff.days : -1} day={3} gifId="RhPvGbWK78A0"/>
+              <CalendarCase itsBirthday={itsBirthday} birthdayIsPast={birthdayIsPast} currentDay={diff ? diff.days : -1} day={5} gifId="UE9JPTe7LySli"/>
+              <CalendarCase itsBirthday={itsBirthday} birthdayIsPast={birthdayIsPast} currentDay={diff ? diff.days : -1} day={4} gifId="Jl4e4EbjO041O"/>
+              <CalendarCase itsBirthday={itsBirthday} birthdayIsPast={birthdayIsPast} currentDay={diff ? diff.days : -1} day={3} gifId="RhPvGbWK78A0"/>
             </div>
 
             <div
@@ -264,8 +288,8 @@ function App() {
                 flexDirection: "row",
               }}
             >
-              <CalendarCase currentDay={diff ? diff.days : -1} day={2} gifId="XKYjR0Hsjh5cs"/>
-              <CalendarCase currentDay={diff ? diff.days : -1} day={1} gifId="Ss0x5MowFPdxXm85Bl"/>
+              <CalendarCase itsBirthday={itsBirthday} birthdayIsPast={birthdayIsPast} currentDay={diff ? diff.days : -1} day={2} gifId="XKYjR0Hsjh5cs"/>
+              <CalendarCase itsBirthday={itsBirthday} birthdayIsPast={birthdayIsPast} currentDay={diff ? diff.days : -1} day={1} gifId="Ss0x5MowFPdxXm85Bl"/>
               <EmptyCase />
             </div>
           </div>
