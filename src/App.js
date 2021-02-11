@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import "./App.css";
-import "./photo_julie.jpeg";
+import photo from "./photo_julie.jpeg";
 import { intervalToDuration } from "date-fns";
 
 function Value(props) {
@@ -48,6 +48,7 @@ function App() {
           flexDirection: "column",
         }}
       >
+        <img src={photo} />
         <div style={{ fontSize: "4rem" }}>Pas encore!</div>
         {diff && (
           <>
