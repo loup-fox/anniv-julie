@@ -12,60 +12,85 @@ function Value(props) {
   );
 }
 
+function CalendarCase(props) {
+  const [open, setOpen] = useState(props.currentDay + 1 < props.day);
 
-function CalendarCase(props){
-  const [open, setOpen] = useState(false);
-  
   const openCase = () => {
-    if (props.currentDay !== -1 && props.currentDay < props.day){
-      setOpen(true)
+    if (props.currentDay !== -1 && props.currentDay < props.day) {
+      setOpen(true);
     }
-  }
-  const gifUrl = `https://giphy.com/embed/${props.gifId}`
-  return open ? 
-  <div style={{
-    height: "75%",
-    width: "75%",
-    margin: "2%",
-  }}>
-    <iframe src={gifUrl} width="100%" height="100%" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
-  </div> : 
-  <div onClick={openCase} style={{
-    height: "75%",
-    width: "75%",
-    margin: "2%",
-    backgroundColor: "red",
-    color: "white",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    fontSize: "40px"
-  }}>
-    J-{props.day}
-  </div> 
+  };
+  const gifUrl = `https://giphy.com/embed/${props.gifId}`;
+  return open ? (
+    <div
+      style={{
+        height: "75%",
+        width: "75%",
+        margin: "2%",
+      }}
+    >
+      <iframe
+        src={gifUrl}
+        width="100%"
+        height="100%"
+        frameBorder="0"
+        class="giphy-embed"
+        allowFullScreen
+      ></iframe>
+    </div>
+  ) : (
+    <div
+      onClick={openCase}
+      style={{
+        height: "75%",
+        width: "75%",
+        margin: "2%",
+        backgroundColor: "red",
+        color: "white",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        fontSize: "40px",
+      }}
+    >
+      J-{props.day}
+    </div>
+  );
 }
 
-function EmptyCase(){
-  return <div style={{
-    height: "75%",
-    width: "75%",
-    margin: "2%",
-  }}/>
+function EmptyCase() {
+  return (
+    <div
+      style={{
+        height: "75%",
+        width: "75%",
+        margin: "2%",
+      }}
+    />
+  );
 }
 
 function App() {
-  const [diff, setDiff] = useState(null);
+  function computeDiff() {
+    return intervalToDuration({
+      end: new Date(2021, 2, 27),
+      start: new Date(),
+    });
+  }
+
+  const [diff, setDiff] = useState(computeDiff());
 
   useEffect(() => {
-    setInterval(() => {
-      setDiff(
-        intervalToDuration({ end: new Date(2021, 2, 27), start: new Date() })
-      );
-    }, 1000);
+    const t = setTimeout(() => setDiff(computeDiff()), 1000);
+    return () => {
+      clearTimeout(t);
+    };
   });
 
   function Days() {
-    return <Value value={diff ? diff.days : -1} plural="jours" singular="jour" />;
+    return (
+      <Value value={diff ? diff.days : -1} plural="jours" singular="jour" />
+    );
   }
   function Hours() {
     return <Value value={diff.hours} plural="heures" singular="heure" />;
@@ -89,14 +114,16 @@ function App() {
           flexDirection: "row",
         }}
       >
-        <div style={{
-          height: "100%",
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-        }}>
+        <div
+          style={{
+            height: "100%",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
           <div
             style={{
               height: "33%",
@@ -107,24 +134,21 @@ function App() {
               flexDirection: "row",
             }}
           >
-            <CalendarCase currentDay={diff ? diff.days : -1} day={16} gifId="FYQZe82YefYje"/>
-            <CalendarCase currentDay={diff ? diff.days : -1} day={15} gifId="1wqqlaQ7IX3TXibXZE"/>
-            <CalendarCase currentDay={diff ? diff.days : -1} day={14} gifId="RhPvGbWK78A0"/>
-          </div>
-          
-          <div
-            style={{
-              height: "33%",
-              width: "100%",
-              display: "flex",
-              justifyContent: "space-around",
-              alignItems: "center",
-              flexDirection: "row",
-            }}
-          >
-            <CalendarCase currentDay={diff ? diff.days : -1} day={13}/>
-            <CalendarCase currentDay={diff ? diff.days : -1} day={12}/>
-            <CalendarCase currentDay={diff ? diff.days : -1} day={11}/>
+            <CalendarCase
+              currentDay={diff ? diff.days : -1}
+              day={16}
+              gifId="FYQZe82YefYje"
+            />
+            <CalendarCase
+              currentDay={diff ? diff.days : -1}
+              day={15}
+              gifId="1wqqlaQ7IX3TXibXZE"
+            />
+            <CalendarCase
+              currentDay={diff ? diff.days : -1}
+              day={14}
+              gifId="RhPvGbWK78A0"
+            />
           </div>
 
           <div
@@ -137,12 +161,27 @@ function App() {
               flexDirection: "row",
             }}
           >
-            <CalendarCase currentDay={diff ? diff.days : -1} day={10}/>
-            <CalendarCase currentDay={diff ? diff.days : -1} day={9}/>
-            <EmptyCase/>
+            <CalendarCase currentDay={diff ? diff.days : -1} day={13} />
+            <CalendarCase currentDay={diff ? diff.days : -1} day={12} />
+            <CalendarCase currentDay={diff ? diff.days : -1} day={11} />
+          </div>
+
+          <div
+            style={{
+              height: "33%",
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-around",
+              alignItems: "center",
+              flexDirection: "row",
+            }}
+          >
+            <CalendarCase currentDay={diff ? diff.days : -1} day={10} />
+            <CalendarCase currentDay={diff ? diff.days : -1} day={9} />
+            <EmptyCase />
           </div>
         </div>
-        <div> 
+        <div>
           <div
             style={{
               display: "flex",
@@ -165,14 +204,16 @@ function App() {
             )}
           </div>
         </div>
-        <div style={{
-          height: "100%",
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-        }}>
+        <div
+          style={{
+            height: "100%",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
           <div
             style={{
               height: "33%",
@@ -183,24 +224,9 @@ function App() {
               flexDirection: "row",
             }}
           >
-            <CalendarCase currentDay={diff ? diff.days : -1} day={8}/>
-            <CalendarCase currentDay={diff ? diff.days : -1} day={7}/>
-            <CalendarCase currentDay={diff ? diff.days : -1} day={6}/>
-          </div>
-          
-          <div
-            style={{
-              height: "33%",
-              width: "100%",
-              display: "flex",
-              justifyContent: "space-around",
-              alignItems: "center",
-              flexDirection: "row",
-            }}
-          >
-            <CalendarCase currentDay={diff ? diff.days : -1} day={5}/>
-            <CalendarCase currentDay={diff ? diff.days : -1} day={4}/>
-            <CalendarCase currentDay={diff ? diff.days : -1} day={3}/>
+            <CalendarCase currentDay={diff ? diff.days : -1} day={8} />
+            <CalendarCase currentDay={diff ? diff.days : -1} day={7} />
+            <CalendarCase currentDay={diff ? diff.days : -1} day={6} />
           </div>
 
           <div
@@ -213,9 +239,24 @@ function App() {
               flexDirection: "row",
             }}
           >
-            <CalendarCase currentDay={diff ? diff.days : -1} day={2}/>
-            <CalendarCase currentDay={diff ? diff.days : -1} day={1}/>
-            <EmptyCase/>
+            <CalendarCase currentDay={diff ? diff.days : -1} day={5} />
+            <CalendarCase currentDay={diff ? diff.days : -1} day={4} />
+            <CalendarCase currentDay={diff ? diff.days : -1} day={3} />
+          </div>
+
+          <div
+            style={{
+              height: "33%",
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-around",
+              alignItems: "center",
+              flexDirection: "row",
+            }}
+          >
+            <CalendarCase currentDay={diff ? diff.days : -1} day={2} />
+            <CalendarCase currentDay={diff ? diff.days : -1} day={1} />
+            <EmptyCase />
           </div>
         </div>
       </div>
