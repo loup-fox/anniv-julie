@@ -17,7 +17,7 @@ function CalendarCase(props){
   const [open, setOpen] = useState(false);
   
   const openCase = () => {
-    if (props.currentDay < props.day){
+    if (props.currentDay !== -1 && props.currentDay < props.day){
       setOpen(true)
     }
   }
