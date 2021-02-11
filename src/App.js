@@ -17,8 +17,7 @@ function CalendarCase(props){
   const [open, setOpen] = useState(false);
   
   const openCase = () => {
-    console.log({props})
-    if (props.currentDay + 1 === props.day){
+    if (props.currentDay < props.day){
       setOpen(true)
     }
   }
@@ -108,9 +107,9 @@ function App() {
               flexDirection: "row",
             }}
           >
-            <CalendarCase currentDay={diff ? diff.days : -1} day={16} gifId="RhPvGbWK78A0"/>
-            <CalendarCase currentDay={diff ? diff.days : -1} day={15}/>
-            <CalendarCase currentDay={diff ? diff.days : -1} day={14}/>
+            <CalendarCase currentDay={diff ? diff.days : -1} day={16} gifId="FYQZe82YefYje"/>
+            <CalendarCase currentDay={diff ? diff.days : -1} day={15} gifId="1wqqlaQ7IX3TXibXZE"/>
+            <CalendarCase currentDay={diff ? diff.days : -1} day={14} gifId="RhPvGbWK78A0"/>
           </div>
           
           <div
