@@ -3,6 +3,14 @@ import { useEffect } from "react";
 import "./App.css";
 import { intervalToDuration } from "date-fns";
 
+function Value(props) {
+  return (
+    <span>
+      `${props.value} ${props.value > 1 ? props.plural : props.singular}`
+    </span>
+  );
+}
+
 function App() {
   const [diff, setDiff] = useState(null);
 
@@ -13,6 +21,19 @@ function App() {
       );
     }, 100);
   });
+
+  function Days() {
+    return <Value value={diff.days} plural="jours" singular="jour" />;
+  }
+  function Hours() {
+    return <Value value={diff.hours} plural="heures" singular="heure" />;
+  }
+  function Minutes() {
+    return <Value value={diff.minutes} plural="minutes" singular="minute" />;
+  }
+  function Seconds() {
+    return <Value value={diff.seconds} plural="secondes" singular="seconde" />;
+  }
 
   return (
     <div className="App">
@@ -30,10 +51,10 @@ function App() {
         {diff && (
           <>
             <div style={{ fontSize: "2rem" }}>
-              C'est dans {diff.days} jours et {diff.hours} heures
+              C'est dans <Days /> et <Hours />
             </div>
             <div style={{ fontSize: "1.5rem" }}>
-              {diff.minutes} minutes et {diff.seconds} secondes.
+              <Minutes /> et <Seconds />.
             </div>
           </>
         )}
