@@ -12,6 +12,21 @@ function Value(props) {
   );
 }
 
+function PhotoCase(props){
+  const [open, setOpen] = useState(false);
+
+  const openCase = () => {
+    if (props.itsBirthday ) {
+      setOpen(true);
+    }
+  };
+  return open ? (
+    <iframe src="https://www.youtube.com/embed/lA0FgzTvSUc" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="true"/>
+  ) : (
+    <img src={photo} onClick={openCase}/>
+  );
+}
+
 function CalendarCase(props) {
   const [open, setOpen] = useState(props.itsBirthday || props.birthdayIsPast || props.currentDay + 1 < props.day);
   const itsCurrentDayCase = props.currentDay !== -1 && props.currentDay < props.day
@@ -222,7 +237,7 @@ function App() {
                 flexDirection: "column",
               }}
             >
-              <img src={photo} />
+              <PhotoCase itsBirthday={itsBirthday}/>
               <div style={{ fontSize: "3rem" }}>
                 {
                   itsBirthday ? "C'est l'anniversaire de la best RH ever! Happy Birthday Julie!" : birthdayIsPast ? "See you next year!" : "Pas encore!" 
