@@ -14,9 +14,10 @@ function Value(props) {
 
 function CalendarCase(props) {
   const [open, setOpen] = useState(props.itsBirthday || props.birthdayIsPast || props.currentDay + 1 < props.day);
+  const itsCurrentDayCase = props.currentDay !== -1 && props.currentDay < props.day
 
   const openCase = () => {
-    if (props.currentDay !== -1 && props.currentDay < props.day) {
+    if (itsCurrentDayCase) {
       setOpen(true);
     } else {
       window.alert("Julie, si tu continues de te montrer insolente en tentant de tricher nous serons obligés de détruire ce site.");
@@ -53,6 +54,7 @@ function CalendarCase(props) {
         justifyContent: "center",
         alignItems: "center",
         fontSize: "40px",
+        border: itsCurrentDayCase ? "dashed blue" : undefined
       }}
     >
       J-{props.day}
