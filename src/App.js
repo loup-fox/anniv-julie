@@ -12,11 +12,27 @@ function Value(props) {
   );
 }
 
-function CalendarCase(props) {
-  const [open, setOpen] = useState(props.itsBirthday || props.birthdayIsPast || props.currentDay + 1 < props.day);
+function PhotoCase(props){
+  const [open, setOpen] = useState(false);
 
   const openCase = () => {
-    if (props.currentDay !== -1 && props.currentDay < props.day) {
+    if (props.itsBirthday ) {
+      setOpen(true);
+    }
+  };
+  return open ? (
+    <iframe src="https://www.youtube.com/embed/lA0FgzTvSUc" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="true"/>
+  ) : (
+    <img src={photo} onClick={openCase}/>
+  );
+}
+
+function CalendarCase(props) {
+  const [open, setOpen] = useState(props.itsBirthday || props.birthdayIsPast || props.currentDay + 1 < props.day);
+  const itsCurrentDayCase = props.currentDay !== -1 && props.currentDay < props.day
+
+  const openCase = () => {
+    if (itsCurrentDayCase) {
       setOpen(true);
     } else {
       window.alert("Julie, si tu continues de te montrer insolente en tentant de tricher nous serons obligés de détruire ce site.");
@@ -53,6 +69,7 @@ function CalendarCase(props) {
         justifyContent: "center",
         alignItems: "center",
         fontSize: "40px",
+        border: itsCurrentDayCase ? "dashed blue" : undefined
       }}
     >
       J-{props.day}
@@ -220,7 +237,7 @@ function App() {
                 flexDirection: "column",
               }}
             >
-              <img src={photo} />
+              <PhotoCase itsBirthday={itsBirthday}/>
               <div style={{ fontSize: "3rem" }}>
                 {
                   itsBirthday ? "C'est l'anniversaire de la best RH ever! Happy Birthday Julie!" : birthdayIsPast ? "See you next year!" : "Pas encore!" 
