@@ -90,7 +90,7 @@ function EmptyCase() {
 }
 
 function App() {
-  const annivJulie = new Date(2021, 2, 27)
+  const annivJulie = new Date(2021, 1, 27)
   function computeDiff() {
     return intervalToDuration({
       end: annivJulie,
